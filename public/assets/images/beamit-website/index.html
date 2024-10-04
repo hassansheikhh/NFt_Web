@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BeamIt.Space</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Welcome to BeamIt.Space">
+    <meta name="keywords" content="BeamIt, Space">
+    <meta name="author" content="BeamIt Space">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        @font-face {
+            font-family: 'Square721BT';
+            src: url('Square721-BT.ttf') format('truetype');
+        }
+
+        body {
+            background: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            font-family: 'Square721BT', Arial, sans-serif;
+        }
+
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.75); /* 75% transparency */
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .header-left {
+            font-size: 24px;
+            color: #ff00f2;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .header-right a {
+            color: #ff00f2;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .header-right a:hover {
+            color: #00ffff;
+        }
+
+        .info-section {
+        background-color: black;
+        color: #00ffff;
+        font-family: 'Square721BT', Arial, sans-serif;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+        max-width: 600px;
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .info-section h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .info-section p {
+        margin: 5px 0;
+        font-size: 18px;
+    }
+
+    .info-section ul {
+        margin: 10px 0;
+        padding-left: 70px; /* 20px default + 50px more */
+    }
+
+    .info-section ul li {
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+        .social-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .social-icon:hover {
+            opacity: 0.8;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: #ff00f2;
+            position: relative;
+            left: -20px; /* Move the menu icon 20px to the left */
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-link img {
+            width: 50px;
+            height: auto;
+        }
+
+
+
+        .info-banner-section {
+        font-family: 'Square721BT', Arial, sans-serif;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 10px;
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .info-banner-section p {
+        margin: 5px 0;
+        font-size: 18px;
+    }
+
+    .info-banner-section a {
+        color: #00ffff;
+        text-decoration: none;
+    }
+
+    .info-banner-section a:hover {
+        text-decoration: underline;
+    }
+
+
+
+    .team-section {
+    margin: 20px auto;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.team-header {
+    margin-bottom: 20px;
+}
+
+.team-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.team-member {
+    background-color: black;
+    border: 1px solid #00ffff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.team-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.team-info {
+    text-align: left;
+}
+
+.team-name, .team-role, .team-links div {
+    margin-bottom: 5px;
+    font-family: 'Square721BT', Arial, sans-serif;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    .team-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .team-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+        @media screen and (max-width: 600px) {
+            .header-right {
+                display: none;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .header-right.active {
+                display: flex;
+                position: absolute;
+                top: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.9);
+                width: 100%;
+                height: 100vh;
+                text-align: center;
+                padding: 20px 0;
+                z-index: 1000;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .header-right.active .close-icon {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-size: 30px;
+                cursor: pointer;
+                color: #ff00f2;
+            }
+
+            .header-right a {
+                padding: 10px 0;
+            }
+
+            .logo-link-mobile {
+                display: block;
+                margin: 20px 0;
+            }
+
+            .logo-link-mobile img {
+                width: 100px;
+                height: auto;
+            }
+        }
+
+        #content {
+            position: relative;
+            z-index: 1;
+            padding-top: 100px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        video {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            max-width: 100%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-icons {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .social-icons img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .social-icons a {
+            display: inline-block;
+        }
+
+        .twitter-icon:hover {
+            content: url('twitter-hover.png');
+        }
+
+        .discord-icon:hover {
+            content: url('discord-hover.png');
+        }
+
+        #background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: -1;
+        }
+
+        #logo {
+            width: 130%;
+            height: auto;
+            min-width: 300px;
+            margin-bottom: 10px;
+        }
+
+        #logo-mobile {
+            display: none;
+        }
+
+        .ambassadors-list div,
+        .partners-list div,
+        .metaverse-list div {
+            padding: 5px;
+            background-color: black;
+            color: #ff00f2;
+            border-radius: 5px;
+        }
+
+
+
+
+        .custom-button {
+            margin: 10px 0;
+            text-decoration: none;
+            width: 100px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            border: none;
+            padding: 0;
+            background: none;
+        }
+
+
+
+.custom-button {
+        margin: 10px 0;
+        text-decoration: none;
+        width: 130px; /* 100px * 1.3 = 130px */
+        height: 32.5px; /* 25px * 1.3 = 32.5px */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        border: none;
+        padding: 0;
+        background: none;
+    }
+
+    .custom-button img {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+    }
+
+
+
+
+
+        .custom-button:hover img {
+            content: url('waitlist-button-hover.png');
+        }
+
+        .submit-button img:hover {
+            content: url('submit-button-hover.png');
+        }
+
+        #contact-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 50px 0;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        #contact-form input, #contact-form textarea {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
+            background: black !important;
+            border: 1px solid #00ffff;
+            color: #ff00f2;
+            font-family: Arial, sans-serif;
+        }
+
+        #contact-form input:focus, #contact-form textarea:focus,
+        #contact-form input:valid, #contact-form textarea:valid {
+            background: black !important;
+            border: 1px solid #00ffff;
+        }
+
+        #contact-form input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px black inset !important;
+            -webkit-text-fill-color: #ff00f2 !important;
+        }
+
+        #contact-form textarea {
+            height: 150px;
+        }
+
+        .success-message {
+            background-color: black;
+            color: #ff00f2;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .error-message {
+            background-color: black;
+            color: red;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .g-recaptcha {
+            transform: scale(0.5);
+            transform-origin: 0 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        @media screen and (max-width: 600px) {
+            #logo {
+                display: none;
+            }
+
+            #logo-mobile {
+                display: block;
+                width: 120%;
+                height: auto;
+                margin: 30px 0 25px 0;
+            }
+
+            #content {
+                width: 95%;
+                padding-top: 20px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .custom-button {
+                width: 80px;
+                height: 20px;
+            }
+
+            .custom-button img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .social-icons {
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+            }
+        }
+
+        
+
+
+        footer {
+    background-color: black;
+    color: #ff00f2;
+    font-family: 'Square721BT', Arial, sans-serif;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    font-size: 70%;
+    position: fixed;
+    bottom: -100px;
+    transition: bottom 0.5s ease-in-out;
+}
+
+
+        .ambassadors, .partners, .metaverse {
+            text-align: center;
+            margin-top: 20px;
+            color: #ff00f2;
+            font-family: 'Square721BT', Arial, sans-serif;
+        }
+
+        .ambassadors-header, .partners-header, .metaverse-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px auto 20px auto;
+        }
+
+        .ambassadors-header img, .partners-header img, .metaverse-header img {
+            width: 80%;
+            max-width: 300px;
+            height: auto;
+            display: block;
+        }
+
+        .ambassadors-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .partners-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .metaverse-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .ambassadors img, .partners img, .metaverse img {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .ambassadors a, .partners a, .metaverse a {
+            color: #ff00f2;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            font-family: 'Square721BT', Arial, sans-serif;
+        }
+
+        .ambassadors a:hover, .partners a:hover, .metaverse a:hover {
+            color: #00ffff;
+        }
+
+        .ambassadors-list div:hover, 
+        .partners-list div:hover, 
+        .metaverse-list div:hover {
+            color: #00ffff;
+        }
+
+        @media screen and (max-width: 600px) {
+            .ambassadors-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo-link">
+            <img src="beamit-logo.png" alt="BeamIt logo">
+        </a>
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="header-right">
+            <a href="https://docs.google.com/forms/d/1TzmYPtzWh2udYO8RD-ZOSOpSWgewQK_WL4ZaS1UeTb4/" target="_blank" class="link-hover">Join Ambassador Program</a>
+            <a href="https://alphamint.beamit.space/" target="_blank" class="link-hover">Alphamint</a>
+            <a href="https://beamit.space/whitepaper-beamit-ai.pdf" target="_blank" class="whitepaper-link">Whitepaper</a>
+            <a href="https://note.com/takabitmap/n/n1bbd5faeb529" target="_blank" class="whitepaper-link">白書</a>
+            <a href="https://twitter.com/beamit_ai" target="_blank">
+                <img src="twitter.png" alt="Twitter" class="social-icon twitter-icon">
+            </a>
+            <a href="https://discord.gg/f2mcJWwVNw" target="_blank">
+                <img src="discord.png" alt="Discord" class="social-icon discord-icon">
+            </a>
+            <div class="close-icon" onclick="toggleMenu()">✖</div>
+        </div>
+    </header>
+    
+    
+    <img id="background-image" src="beamitx-website.png" alt="Background">
+    <div id="content">
+        <img id="logo" src="beamit-3davatars-ai-grid1grid.png" alt="BeamIt logo">
+        <img id="logo-mobile" src="beamit-3davatars-ai-mobile-grid.png" alt="BeamIt logo for mobile">
+    
+ <!-- New info banner section -->
+<div class="info-banner-section">
+    <p style="color: #ff00f2;">3D avatars ai-generated from your favourite PFP.</p>
+    <p style="color: #00ffff;">
+        <span style="color: #ff00f2;">Join the incentivized </span> 
+        <a href="https://alphamint.beamit.space/auth/login/">alphamint.beamit.space</a>
+        <p style="color: #ff00f2;">now LIVE!</p>
+    </p>
+</div>
+
+    
+        <!-- Join Waitlist button -->
+        <a id="join-waitlist" class="custom-button" href="https://whitelist.beamit.space" target="_blank">
+            <img src="waitlist-button.png" alt="join waitlist">
+        </a>
+
+        <!-- Self-hosted video embed -->
+        <video width="560" height="315" controls poster="video-beamit.jpg">
+            <source src="beamit-ai.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+    
+
+    <!-- New info section -->
+    <div class="info-section">
+        <h4>An Interdimensional Teleport Device for the Open Metaverse</h4>
+        <p>Beamit AI is your go-to service for metaverse-ready 3D avatars generated by a decentralized AI. Secure your spot now to beam your favourite PFP into the open metaverse!</p>
+        <ul>
+            <li>from any chain</li>
+            <li>to any metaverse</li>
+            <li>choose your style while maintaining traits</li>
+            <li>at a fraction of cost ever before possible</li>
+            <li>generated within minutes</li>
+        </ul>
+        <p>In the current prototype phase our 3D Avatars can be used on these metaverse experiences, with many more to follow:</p>
+    </div>
+
+    <!-- Existing content -->
+</div>
+<!-- Existing content -->
+
+
+
+
+       
+        <!-- Metaverse Integrations section -->
+        <div class="metaverse">
+            <div class="metaverse-header">
+                <div style="color: #00ffff; background: black;">Metaverse integrations</div>
+            </div>
+            <div class="metaverse-list">
+                <a href="https://x.com/monaverse" target="_blank">
+                    <img src="monaverse-metaverse-beamit-ai.jpg" alt="Metaverse Monaverse">
+                    <div>Monaverse</div>
+                </a>
+                <a href="https://x.com/oncyber" target="_blank">
+                    <img src="oncyber-metaverse-beamit-ai.jpg" alt="Metaverse Oncyber">
+                    <div>Oncyber</div>
+                </a>
+                <a href="https://x.com/dverso_io" target="_blank">
+                    <img src="dversoio-metaverse-beamit-ai.jpg" alt="Metaverse dverso io">
+                    <div>dverso.io</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- New info section -->
+<div class="info-section">
+
+    <h4>Built-In IP Management</h4>
+    <p>Beamit AI comes with built in IP management. Our Proof of Provenance smart contracts change the way we monetize our IP, how metaverses and games incentivize IP holders and aims to become an integral part of the metaverse economy.</p>
+</div>
+
+         <!-- Technology Partners section -->
+         <div class="partners">
+            <div class="partners-header">
+                <div style="color: #00ffff; background: black;">Tech Partners & Press Coverage</div>
+            </div>
+            <div class="partners-list">
+                <a href="https://coinweb.io/" target="_blank">
+                    <img src="coinweb-beamit-ai.jpg" alt="Partner 1">
+                    <div>Coinweb - Interoperability</div>
+                </a>
+                <a href="https://ordzaar.com/" target="_blank">
+                    <img src="ordzaar-beamit-ai.jpg" alt="Partner 2">
+                    <div>Ordzaar - Launchpad</div>
+                </a>
+                <a href="https://hackernoon.com/this-is-why-the-decentralization-of-ai-matters" target="_blank">
+                    <img src="hackernoon-beamit-ai.jpg" alt="Partner 3">
+                    <div>Featured on Hackernoon</div>
+                </a>
+            </div>
+        </div>
+
+         <!-- New info section -->
+<div class="info-section">
+
+    <h4>A decentralized AI, governed by its users</h4>
+    <p>The decentralisation of Beamit AI puts the power to the users. Because we care about alignment with the right ones. That is why our early adopter reward program ensures, that the devs, creators and users (IP holders) will take over the command bridge of this teleport device of the open metaverse. Aiming to spread our ambitions, we are happy to enjoy the support of our OG Ambassadors.</p></div>
+
+
+    <!-- Insert this code before the Ambassadors section -->
+    <div class="ambassadors-header">
+        <div style="color: #00ffff; background: black;">Beamit AI Roadmap</div>
+    </div>
+    <div class="roadmap-section">
+    <img src="roadmap-beamit-ai.jpg" alt="Roadmap Beamit AI" style="width: 100%; height: auto; max-width: 800px; margin: 20px auto; display: block;">
+</div>
+        <!-- Ambassadors section -->
+        <div class="ambassadors-header">
+            <div style="color: #00ffff; background: black;">Official Beamit AI Ambassadors</div>
+        </div>
+        <div class="ambassadors">
+            <div class="ambassadors-list">
+                <a href="https://x.com/Djgirinnft" target="_blank">
+                    <img src="ambassador1-beamit.jpg" alt="Ambassador 1">
+                    <div>DJ Girin NFT</div>
+                </a>
+                <a href="https://x.com/BitMap_News" target="_blank">
+                    <img src="ambassador2-beamit.jpg" alt="Ambassador 2">
+                    <div>Bitmap News</div>
+                </a>
+                <a href="https://x.com/1silver_eth" target="_blank">
+                    <img src="ambassador4-beamit.jpg" alt="Ambassador 3">
+                    <div>1Silver.sats</div>
+                </a>
+                <a href="https://x.com/gaofei52100" target="_blank">
+                    <img src="ambassador7-beamit.jpg" alt="Ambassador 6">
+                    <div>Goofy丨OwO</div>
+                </a>
+                <a href="https://x.com/Tommy8SAAT" target="_blank">
+                    <img src="ambassador5-beamit.jpg" alt="Ambassador 4">
+                    <div>Tommy 8</div>
+                </a>
+                <a href="https://x.com/TAKABITMAP" target="_blank">
+                    <img src="ambassador6-beamit.jpg" alt="Ambassador 5">
+                    <div>TAKA🐕BITMAP</div>
+                </a>
+                <a href="https://x.com/daboy_111?s=09" target="_blank">
+                    <img src="ambassador8-beamit.jpg" alt="Ambassador 7">
+                    <div>Da boy 🥷</div>
+                </a>
+                <a href="https://x.com/HappyfulofWeb3?s=09" target="_blank">
+                    <img src="ambassador9-beamit.jpg" alt="Ambassador 8">
+                    <div>Happyful.ton⛩️💎</div>
+                </a>
+                <a href="https://x.com/JoaoDeFi?s=09" target="_blank">
+                    <img src="ambassador10-beamit.jpg" alt="Ambassador 9">
+                    <div>João📝</div>
+                </a>
+                <a href="https://x.com/jikannians?s=09" target="_blank">
+                    <img src="ambassador11-beamit.jpg" alt="Ambassador 10">
+                    <div>Jikannians</div>
+                </a>
+                <a href="https://x.com/Ma_wheen?t=iCIMrG5lG77VS0794ibBYw&s=09" target="_blank">
+                    <img src="ambassador12-beamit.jpg" alt="Ambassador 11">
+                    <div>Maureen Archibong</div>
+                </a>
+                <a href="https://x.com/RichardXweb3?s=09" target="_blank">
+                    <img src="ambassador13-beamit.jpg" alt="Ambassador 12">
+                    <div>Richard 👑⚡</div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+   
+
+<div class="ambassadors-header">
+    <div style="color: #00ffff; background: black;">Team</div>
+</div>
+
+<div class="roadmap-section">
+    <img src="team-beamit-ai-website.jpg" alt="Beamit AI - the team" style="width: 100%; height: auto; max-width: 800px; margin: 20px auto; display: block;">
+</div>
+
+    <!-- Contact form using PHP script -->
+
+    <div class="ambassadors-header">
+        <div style="color: #00ffff; background: black;">Get in touch now</div>
+    </div>
+    <form id="contact-form" action="https://formspree.io/f/xkgwwwvw" method="post">
+        <div class="success-message">Thank you. The BeamIt team will get back to you shortly.</div>
+        <div class="error-message">There was an error sending your message. Please try again later.</div>
+        <input type="text" name="contact" placeholder="Contact" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" placeholder="Message" rows="6" required></textarea>
+        <div class="g-recaptcha" data-sitekey="6Lejv_ApAAAAAG0tWrFCnZSc17OQYctSMwldUNug"></div> <!-- reCAPTCHA widget -->
+        <button type="submit" class="custom-button submit-button">
+            <img src="submit-button.png" alt="submit">
+        </button>
+    </form>
+    <footer>
+        © 2024 STARBREEDER PTE. LTD., Singapore
+        <a href="Terms.pdf" target="_blank" style="color: #ff00f2; margin-left: 30px;">Terms & Conditions</a>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.header-right');
+            menu.classList.toggle('active');
+            const menuIcon = document.querySelector('.menu-icon');
+            const closeIcon = document.querySelector('.header-right .close-icon');
+            if (menu.classList.contains('active')) {
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            } else {
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            }
+        }
+    </script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const footer = document.querySelector('footer');
+            if (window.scrollY + window.innerHeight >= document.body.offsetHeight - 100) {
+                footer.style.bottom = '0';
+            } else {
+                footer.style.bottom = '-100px';
+            }
+        });
+    </script>
+    
+</body>
+</html>
+
